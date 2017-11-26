@@ -62,7 +62,7 @@ export class DetailPizzaPage {
 
     this.camera.getPicture(options).then((imageData) => {
       this.base64Image = 'data:image/jpeg;base64,' + imageData;
-      console.log(base64Image)
+      console.log(this.base64Image)
     }, (err) => {
     });
   }
