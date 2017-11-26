@@ -57,7 +57,8 @@ export class DetailPizzaPage {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
+      mediaType: this.camera.MediaType.PICTURE,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
     }
 
     this.camera.getPicture(options).then((imageData) => {
@@ -81,7 +82,8 @@ export class DetailPizzaPage {
         });
 
         this.events.publish('pizza:updated', pizzaUpdated);
-        this.navCtrl.push(HomePage);
+
+        this.navCtrl.setRoot(this.navCtrl.getActive().component);
       }, error => {
         console.log(error)
       });

@@ -52,7 +52,8 @@ export class AjouterPizzaModalPage {
         });
 
         this.events.publish('pizza:created', pizzaUpdated);
-        this.navCtrl.push(HomePage);
+
+        this.navCtrl.setRoot(this.navCtrl.getActive().component);
       }, error => {
         console.log(error)
       });
