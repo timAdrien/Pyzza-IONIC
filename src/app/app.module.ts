@@ -18,7 +18,6 @@ import {LocalNotifications} from "@ionic-native/local-notifications";
 import {PipeOrderPizza} from "./pipe/pipe-order-pizza";
 import {PipeFilterNomPizza} from "./pipe/pipe-filter-nom-pizza";
 import {DeletePizzaPopOverPage} from "../pages/delete-pizza-pop-over/delete-pizza-pop-over";
-import {AjouterPizzaModalPage} from "../pages/ajouter-pizza-modal/ajouter-pizza-modal";
 
 @NgModule({
   declarations: [
@@ -27,7 +26,6 @@ import {AjouterPizzaModalPage} from "../pages/ajouter-pizza-modal/ajouter-pizza-
     ListPage,
     DetailPizzaPage,
     DeletePizzaPopOverPage,
-    AjouterPizzaModalPage,
     PipeOrderPizza,
     PipeFilterNomPizza
   ],
@@ -42,8 +40,7 @@ import {AjouterPizzaModalPage} from "../pages/ajouter-pizza-modal/ajouter-pizza-
     HomePage,
     ListPage,
     DeletePizzaPopOverPage,
-    DetailPizzaPage,
-    AjouterPizzaModalPage
+    DetailPizzaPage
   ],
   providers: [
     StatusBar,
