@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {Pizza} from "../../app/model/pizza";
 import {PizzaService} from "../../app/service/pizza.service";
+import {DetailPizzaPage} from "../detail-pizza/detail-pizza";
 
 @Component({
   selector: 'page-home',
@@ -28,5 +29,11 @@ export class HomePage {
     });
   }
   /* Fin Appels Services */
+
+  goToEditPage(event, pizza){
+    this.navCtrl.push(DetailPizzaPage, {
+      pizza: pizza
+    });
+  }
 
 }

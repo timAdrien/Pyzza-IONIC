@@ -8,15 +8,34 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-card  ion-item *ngFor="let pizza of pizzas">
-    <img [src]="pizza.photo.data ? 'data:'+pizza.photo.contentType+';base64,'+pizza.photo.data : ''"/>
-    <ion-card-content>
-      <ion-card-title>
-        {{ pizza.nom }}
-      </ion-card-title>
-      <p>
-        {{ pizza.description }}
-      </p>
-    </ion-card-content>
-  </ion-card>
+  <ion-row>
+    <ion-col col-12 col-sm-9 col-md-6 col-lg-4 col-xl-3 *ngFor="let pizza of pizzas">
+      <ion-card ion-item>
+        <img [src]="pizza.photo.data ? 'data:'+pizza.photo.contentType+';base64,'+pizza.photo.data : ''"/>
+        <ion-card-content>
+          <ion-card-title>
+            {{ pizza.nom }}
+          </ion-card-title>
+          <p>
+            {{ pizza.description }}
+          </p>
+        </ion-card-content>
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-left clear small (click)="goToEditPage($event, pizza)">
+              <ion-icon name="create"></ion-icon>
+              <div>Editer</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-left clear small>
+              <ion-icon name="trash"></ion-icon>
+              <div>Supprimer</div>
+            </button>
+          </ion-col>
+        </ion-row>
+
+      </ion-card>
+    </ion-col>
+  </ion-row>
 </ion-content>

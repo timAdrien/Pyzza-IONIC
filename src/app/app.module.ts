@@ -11,12 +11,16 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {PizzaService} from "./service/pizza.service";
 import {AppConfig} from "./app-config";
+import {DetailPizzaPage} from "../pages/detail-pizza/detail-pizza";
+import {FunctionService} from "./service/function.service";
+import {LocalNotifications} from "@ionic-native/local-notifications";
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    DetailPizzaPage
   ],
   imports: [
     BrowserModule,
@@ -27,14 +31,17 @@ import {AppConfig} from "./app-config";
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    DetailPizzaPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     PizzaService,
-    AppConfig
+    AppConfig,
+    FunctionService,
+    LocalNotifications
   ]
 })
 export class AppModule {}
