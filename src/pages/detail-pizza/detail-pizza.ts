@@ -37,6 +37,7 @@ export class DetailPizzaPage {
       nom: ['', Validators.required],
       prix: [''],
       description: [''],
+      ingredient_ids: [''],
     });
     this.pizza = navParams.get('pizza');
     this.pizzaBefore = navParams.get('pizza');
