@@ -5,7 +5,6 @@ import {PizzaService} from "../../app/service/pizza.service";
 import {DetailPizzaPage} from "../detail-pizza/detail-pizza";
 import { Events } from 'ionic-angular';
 import {DeletePizzaPopOverPage} from "../delete-pizza-pop-over/delete-pizza-pop-over";
-import {AjouterPizzaModalPage} from "../ajouter-pizza-modal/ajouter-pizza-modal";
 
 @Component({
   selector: 'page-home',
