@@ -61,7 +61,7 @@ export class DetailPizzaPage {
 
     this.camera.getPicture(options).then((imageData) => {
       this.pizza.photo.data = imageData.split("base64,")[1];
-      this.pizza.photo.contentType = imageData.split(";")[0].split(":")[1];
+      this.pizza.photo.contentType = "image/JPEG";
     }, (err) => {
     });
   }
