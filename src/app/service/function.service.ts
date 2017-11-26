@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import {ToastController} from "ionic-angular";
+import {LoadingController, ToastController} from "ionic-angular";
 
 @Injectable()
 export class FunctionService {
 
+  loading: any;
+
   constructor(
-    private toastCtrl: ToastController) { }
+    private toastCtrl: ToastController,
+    public loadingCtrl: LoadingController) { }
 
   getDiff(obj1, obj2){
     let newJson = { _id: obj2["_id"]};
@@ -27,6 +30,18 @@ export class FunctionService {
     });
 
     toast.present();
+  }
+
+  presentLoadingDefault() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+
+    this.loading.present();
+  }
+
+  dissmissLoadingDefault() {
+    this.loading.dismiss();
   }
 
 }

@@ -69,29 +69,30 @@ export class DetailPizzaPage {
   onSubmit(){
     this.pizza = this.prepareSavePizza(this.pizza);
     if(!this.edition){
+      this.functionService.presentLoadingDefault();
       this.pizzaService.post(this.pizza).subscribe(pizzaUpdated => {
-        //this.spinnerService.hide('loader');
 
-        this.functionService.presentToast("Pizza créée and persisted");
+        this.functionService.dissmissLoadingDefault();
+
+        this.functionService.presentToast("Pizza créée");
         this.pizzaService.refresh();
 
         this.events.publish('pizza:created', pizzaUpdated);
-
-        this.navCtrl.pop();
+        location.reload();
       }, error => {
         console.log(error)
       });
     } else {
       if (!_.isEqual(this.pizza, this.pizzaBefore)) {
         let PizzaGoingToBeUpdate = this.functionService.getDiff(this.pizzaBefore, this.pizza);
-        //this.spinnerService.show('loader');
+        this.functionService.presentLoadingDefault();
         this.pizzaService.update(PizzaGoingToBeUpdate).subscribe(pizzaUpdated => {
-          //this.spinnerService.hide('loader');
+          console.log(pizzaUpdated)
+          this.functionService.dissmissLoadingDefault();
           this.pizzaService.getAll();
           this.pizzaService.refresh();
           this.events.publish('pizza:updated', pizzaUpdated);
-
-          this.navCtrl.pop();
+          location.reload();
         }, error => {
           console.log(error)
         });
@@ -112,13 +113,13 @@ export class DetailPizzaPage {
       }
         pizza.ingredient_ids.push(ingredients.find(ing => ing._id == ingredientId));
     });
-
     return pizza;
   }
 
-
   getIngredients() {
+    this.functionService.presentLoadingDefault();
     this.ingredientService.getAll().subscribe(ingredients => {
+      this.functionService.dissmissLoadingDefault();
       this.ingredients = ingredients;
       this.setSelectedValues();
     }, error => {
@@ -129,10 +130,10 @@ export class DetailPizzaPage {
   setSelectedValues() {
     let pizza = this.pizza;
     let selectedIngredients = this.selectedIngredients;
+    if(pizza.ingredient_ids == undefined){
+      pizza.ingredient_ids = [];
+    }
     this.ingredients.forEach(function (ingredient) {
-      if(pizza.ingredient_ids == undefined){
-        pizza.ingredient_ids = [];
-      }
         if (pizza.ingredient_ids.find(ing => ing._id == ingredient._id)) {
           selectedIngredients.push(ingredient._id);
         }

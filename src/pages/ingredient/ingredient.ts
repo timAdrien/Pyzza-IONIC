@@ -5,6 +5,7 @@ import {Ingredient} from "../../app/model/ingredient";
 import {DetailIngredientPage} from "../detail-ingredient/detail-ingredient";
 import {DeleteIngredientPopOverPage} from "../delete-ingredient-pop-over/delete-ingredient-pop-over";
 import {LocalNotifications} from "@ionic-native/local-notifications";
+import {FunctionService} from "../../app/service/function.service";
 
 /**
  * Generated class for the IngredientPage page.
@@ -27,7 +28,8 @@ export class IngredientPage {
               private ingredientService: IngredientService,
               public popoverCtrl: PopoverController,
               public events: Events,
-              private localNotifications: LocalNotifications) {
+              private localNotifications: LocalNotifications,
+              private functionService: FunctionService) {
 
     events.subscribe('ingredient:updated', (pizza) => {
       let indexPizza = this.ingredients.findIndex(pizzaListe => pizzaListe._id == pizza._id);
@@ -56,9 +58,9 @@ export class IngredientPage {
 
   /* Début Appels Services */
   getIngredients(): void {
-    //this.spinnerService.show('loader');
+    this.functionService.presentLoadingDefault();
     this.ingredientService.getAll().subscribe(ingredients => {
-      //this.spinnerService.hide('loader');
+      this.functionService.dissmissLoadingDefault();
       this.ingredients = ingredients;
 
       if (this.onRefresh) {

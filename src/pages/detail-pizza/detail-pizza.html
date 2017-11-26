@@ -22,20 +22,30 @@
       <ion-label>Nom</ion-label>
       <ion-input type="text" [(ngModel)]="pizza.nom"></ion-input>
     </ion-item>
+
     <ion-item>
       <ion-label>Prix</ion-label>
       <ion-input type="number" [(ngModel)]="pizza.prix"></ion-input>
     </ion-item>
+
     <ion-item>
       <ion-label>Description</ion-label>
       <ion-textarea [(ngModel)]="pizza.description"></ion-textarea>
     </ion-item>
+
     <ion-item>
       <ion-label>Ingredients</ion-label>
-      <ion-select [(ngModel)]="selectedIngredients" multiple="true">
-        <ion-option *ngFor="let ingredient of ingredients; let i = index" [value]="ingredient._id" [selected]="selectedIngredients[i] == ingredient._id">{{ ingredient.nom }}</ion-option>
+      <ion-select [(ngModel)]="selectedIngredients" multiple>
+        <ion-option *ngFor="let ingredient of ingredients; let i = index" [value]="ingredient._id" >{{ ingredient.nom }}</ion-option>
       </ion-select>
     </ion-item>
-    <button ion-button  (click)="onSubmit()">Sauvergarder</button>
+
+      <ion-chip *ngFor="let ingredient of pizza.ingredient_ids; let i = index">
+        <ion-icon name="pizza" color="primary"></ion-icon>
+        <ion-label>{{ ingredient.nom }}</ion-label>
+      </ion-chip>
+    <ion-item>
+      <button ion-button  (click)="onSubmit()">Sauvergarder</button>
+    </ion-item>
   </div>
 </ion-content>

@@ -32,7 +32,9 @@ export class DeletePizzaPopOverPage {
   }
 
   supprimerPizza(){
+    this.functionService.presentLoadingDefault();
     this.pizzaService.delete(this.pizza._id).subscribe(() => {
+      this.functionService.dissmissLoadingDefault();
       this.events.publish('pizza:deleted', this.pizza);
       this.pizzaService.refresh();
       this.functionService.presentToast("Pizza supprimée");

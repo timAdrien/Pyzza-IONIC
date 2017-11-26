@@ -54,7 +54,9 @@ export class DetailIngredientPage {
   onSubmit() {
     let ingredientFromForm = this.prepareSaveIngredient();
     if (!this.edition) {
+      this.functionService.presentLoadingDefault();
       this.ingredientService.post(ingredientFromForm).subscribe(ingredientAdded => {
+        this.functionService.dissmissLoadingDefault();
         this.ingredientService.refresh();
         this.events.publish('ingredient:created', ingredientAdded);
         this.navCtrl.pop();
@@ -64,7 +66,9 @@ export class DetailIngredientPage {
     } else {
       if(!_.isEqual(ingredientFromForm, this.ingredientBefore)){
         let IngredientGoingToBeUpdate = this.functionService.getDiff(this.ingredientBefore, ingredientFromForm);
+        this.functionService.presentLoadingDefault();
         this.ingredientService.update(IngredientGoingToBeUpdate).subscribe(ingredientUpdated => {
+          this.functionService.dissmissLoadingDefault();
           this.ingredientService.refresh();
           this.events.publish('ingredient:updated', ingredientUpdated);
           this.navCtrl.pop();

@@ -32,7 +32,9 @@ export class DeleteIngredientPopOverPage {
   }
 
   supprimerIngredient(){
+    this.functionService.presentLoadingDefault();
     this.ingredientService.delete(this.ingredient._id).subscribe(() => {
+      this.functionService.dissmissLoadingDefault();
       this.events.publish('ingredient:deleted', this.ingredient);
       this.ingredientService.refresh();
       this.functionService.presentToast("Ingredient supprimée");
