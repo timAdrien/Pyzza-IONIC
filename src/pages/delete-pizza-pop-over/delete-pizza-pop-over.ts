@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {Events, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 import {Pizza} from "../../app/model/pizza";
 import {PizzaService} from "../../app/service/pizza.service";
-import {LocalNotifications} from "@ionic-native/local-notifications";
+import {FunctionService} from "../../app/service/function.service";
 
 /**
  * Generated class for the DeletePizzaPopOverPage page.
@@ -20,8 +20,8 @@ export class DeletePizzaPopOverPage {
 
   pizza: Pizza;
   constructor(public navCtrl: NavController, public navParams: NavParams,
-                private pizzaService: PizzaService,
-                private localNotifications: LocalNotifications,
+              private pizzaService: PizzaService,
+              private functionService: FunctionService,
                 public events: Events,
                 public viewCtrl: ViewController) {
     this.pizza = navParams.get('pizza');
@@ -34,12 +34,8 @@ export class DeletePizzaPopOverPage {
   supprimerPizza(){
     this.pizzaService.delete(this.pizza._id).subscribe(() => {
       this.events.publish('pizza:deleted', this.pizza);
-
-      this.localNotifications.schedule({
-        id: 2,
-        text: 'Pizza supprimée'
-      });
-
+      this.pizzaService.refresh();
+      this.functionService.presentToast("Pizza supprimée");
       this.viewCtrl.dismiss();
     }, error => {
       console.log(error)

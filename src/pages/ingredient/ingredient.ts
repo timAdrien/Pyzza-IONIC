@@ -4,6 +4,7 @@ import {IngredientService} from "../../app/service/ingredient.service";
 import {Ingredient} from "../../app/model/ingredient";
 import {DetailIngredientPage} from "../detail-ingredient/detail-ingredient";
 import {DeleteIngredientPopOverPage} from "../delete-ingredient-pop-over/delete-ingredient-pop-over";
+import {FunctionService} from "../../app/service/function.service";
 
 /**
  * Generated class for the IngredientPage page.
@@ -23,6 +24,7 @@ export class IngredientPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private ingredientService: IngredientService,
+              private functionService: FunctionService,
               public popoverCtrl: PopoverController) {
 
     this.getIngredients();

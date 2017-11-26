@@ -5,7 +5,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {FunctionService} from "../../app/service/function.service";
 import {PizzaService} from "../../app/service/pizza.service";
 import * as _ from 'lodash';
-import {LocalNotifications} from "@ionic-native/local-notifications";
 import {Camera, CameraOptions} from "@ionic-native/camera";
 import {Ingredient} from "../../app/model/ingredient";
 import {IngredientService} from "../../app/service/ingredient.service";
@@ -35,7 +34,6 @@ export class DetailPizzaPage {
               private functionService: FunctionService,
               private pizzaService: PizzaService,
               private ingredientService: IngredientService,
-              private localNotifications: LocalNotifications,
               public events: Events,
               private camera: Camera) {
     this.pizzaForm = this.formBuilder.group({
@@ -86,11 +84,6 @@ export class DetailPizzaPage {
       this.pizzaService.post(this.pizza).subscribe(pizzaUpdated => {
         //this.spinnerService.hide('loader');
 
-        this.localNotifications.schedule({
-          id: 1,
-          text: 'Pizza créée'
-        });
-
         this.functionService.presentToast("Pizza créée and persisted");
         this.pizzaService.refresh();
 
@@ -106,12 +99,8 @@ export class DetailPizzaPage {
         //this.spinnerService.show('loader');
         this.pizzaService.update(PizzaGoingToBeUpdate).subscribe(pizzaUpdated => {
           //this.spinnerService.hide('loader');
-          this.pizzaService.getAll()
-          this.localNotifications.schedule({
-            id: 1,
-            text: 'Pizza mise à jour'
-          });
-
+          this.pizzaService.getAll();
+          this.pizzaService.refresh();
           this.events.publish('pizza:updated', pizzaUpdated);
 
           this.navCtrl.pop();
