@@ -1,0 +1,8 @@
+{
+  "name": "pyzza",
+  "app_id": "eb813f93",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
