@@ -7,6 +7,8 @@ import {PizzaService} from "../../app/service/pizza.service";
 import * as _ from 'lodash';
 import {LocalNotifications} from "@ionic-native/local-notifications";
 import {Camera, CameraOptions} from "@ionic-native/camera";
+import {Ingredient} from "../../app/model/ingredient";
+import {IngredientService} from "../../app/service/ingredient.service";
 
 /**
  * Generated class for the DetailPizzaPage page.
@@ -25,11 +27,14 @@ export class DetailPizzaPage {
   pizzaForm : FormGroup;
   pizza: Pizza;
   pizzaBefore: Pizza;
+  selectedIngredients: string[];
+  ingredients: Ingredient[];
   edition: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,
               private functionService: FunctionService,
               private pizzaService: PizzaService,
+              private ingredientService: IngredientService,
               private localNotifications: LocalNotifications,
               public events: Events,
               private camera: Camera) {
@@ -37,14 +42,16 @@ export class DetailPizzaPage {
       nom: ['', Validators.required],
       prix: [''],
       description: [''],
-      ingredient_ids: [''],
     });
     this.pizza = navParams.get('pizza');
-    this.pizzaBefore = navParams.get('pizza');
-
     if(this.pizza) {
+      this.edition = true;
+      let pizzaB = JSON.stringify(navParams.get('pizza'));
+      this.pizzaBefore = JSON.parse(pizzaB);
       this.pizzaForm.patchValue(this.pizza);
     }
+    this.selectedIngredients = [];
+    this.getIngredients();
   }
 
   ionViewDidLoad() {
@@ -68,9 +75,13 @@ export class DetailPizzaPage {
   }
 
   onSubmit(){
-    let pizzaFromForm = this.prepareSavePizza();
+    //let pizzaFromForm = this.prepareSavePizza();
+
+    console.log(this.selectedIngredients);
+    this.pizza = this.prepareSavePizza(this.pizza);
+    console.log(this.pizza);
     if(!this.edition){
-      this.pizzaService.post(pizzaFromForm).subscribe(pizzaUpdated => {
+      this.pizzaService.post(this.pizza).subscribe(pizzaUpdated => {
         //this.spinnerService.hide('loader');
         this.localNotifications.schedule({
           id: 1,
@@ -84,8 +95,8 @@ export class DetailPizzaPage {
         console.log(error)
       });
     } else {
-      if (!_.isEqual(pizzaFromForm, this.pizzaBefore)) {
-        let PizzaGoingToBeUpdate = this.functionService.getDiff(this.pizzaBefore, pizzaFromForm);
+      if (!_.isEqual(this.pizza, this.pizzaBefore)) {
+        let PizzaGoingToBeUpdate = this.functionService.getDiff(this.pizzaBefore, this.pizza);
         //this.spinnerService.show('loader');
         this.pizzaService.update(PizzaGoingToBeUpdate).subscribe(pizzaUpdated => {
           //this.spinnerService.hide('loader');
@@ -108,22 +119,35 @@ export class DetailPizzaPage {
   }
 
 
-  prepareSavePizza(): Pizza {
-    const formModel = this.pizzaForm.value;
+  prepareSavePizza(pizza): Pizza {
 
-    let id: string;
+    let ingredients = this.ingredients;
+    pizza.ingredient_ids = [];
+    this.selectedIngredients.forEach(function (ingredientId) {
+        pizza.ingredient_ids.push(ingredients.find(ing => ing._id == ingredientId));
+    });
 
-    id = this.pizzaBefore._id ? this.pizzaBefore._id : null;
+    return pizza;
+  }
 
-    const savePizza: Pizza = {
-      _id: id,
-      nom: formModel.nom as string,
-      prix: formModel.prix as number,
-      ingredient_ids: null,
-      photo: null,
-      description: formModel.description as string,
-    };
 
-    return savePizza;
+  getIngredients() {
+    this.ingredientService.getAll().subscribe(ingredients => {
+      this.ingredients = ingredients;
+      this.setSelectedValues();
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  setSelectedValues() {
+    let pizza = this.pizza;
+    let selectedIngredients = this.selectedIngredients;
+    this.ingredients.forEach(function (ingredient) {
+      if (pizza.ingredient_ids.find(ing => ing._id == ingredient._id)) {
+        selectedIngredients.push(ingredient._id);
+      }
+    });
+
   }
 }

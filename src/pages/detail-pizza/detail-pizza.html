@@ -15,29 +15,27 @@
 
 <ion-content padding>
 
-  <form [formGroup]="pizzaForm" (ngSubmit)="onSubmit()">
+  <div>
     <button ion-button (click)="onGetPhoto()">Photo</button>
     <img [src]="pizza.photo.contentType ? 'data:'+pizza.photo.contentType+';base64,'+pizza.photo.data : ''" *ngIf="pizza.photo.contentType" />
     <ion-item>
       <ion-label>Nom</ion-label>
-      <ion-input type="text" formControlName="nom"></ion-input>
+      <ion-input type="text" [(ngModel)]="pizza.nom"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Prix</ion-label>
-      <ion-input type="number" formControlName="prix"></ion-input>
+      <ion-input type="number" [(ngModel)]="pizza.prix"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Description</ion-label>
-      <ion-textarea formControlName="description"></ion-textarea>
+      <ion-textarea [(ngModel)]="pizza.description"></ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label>Ingredients</ion-label>
-      <ion-select multiple="true">
-        <ion-option>--</ion-option>
-        <ion-option *ngFor="let ingredient of pizza.ingredient_ids">{{ ingredient.nom }}</ion-option>
+      <ion-select [(ngModel)]="selectedIngredients" multiple="true">
+        <ion-option *ngFor="let ingredient of ingredients; let i = index" [value]="ingredient._id" [selected]="selectedIngredients[i] == ingredient._id">{{ ingredient.nom }}</ion-option>
       </ion-select>
     </ion-item>
-    <button ion-button type="submit" [disabled]="!pizzaForm.valid">Sauvergarder</button>
-  </form>
-
+    <button ion-button  (click)="onSubmit()">Sauvergarder</button>
+  </div>
 </ion-content>
