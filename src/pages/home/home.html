@@ -8,8 +8,26 @@
 </ion-header>
 
 <ion-content padding>
+
   <ion-row>
-    <ion-col col-12 col-sm-9 col-md-6 col-lg-4 col-xl-3 *ngFor="let pizza of pizzas">
+    <ion-col style="margin-top: 10px; background-color: #f3f3f3">
+
+      <ion-item>
+        <ion-label floating>Filtrer par nom...</ion-label>
+        <ion-input [(ngModel)]="filterNom" type="text"></ion-input>
+      </ion-item>
+    </ion-col>
+      <ion-col style="margin-top: 10px; background-color: #f3f3f3">
+
+      <ion-item>
+        <ion-label> ASC</ion-label>
+        <ion-toggle [(ngModel)]="ascending">
+        </ion-toggle>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col col-12 col-sm-9 col-md-6 col-lg-4 col-xl-3 *ngFor="let pizza of pizzas | pipeOrderPizza:order:ascending | pipeFilterNomPizza:filterNom:true">
       <ion-card ion-item>
         <img [src]="pizza.photo.data ? 'data:'+pizza.photo.contentType+';base64,'+pizza.photo.data : ''"/>
         <ion-card-content>
@@ -28,7 +46,7 @@
             </button>
           </ion-col>
           <ion-col>
-            <button ion-button icon-left clear small>
+            <button ion-button icon-left clear small (click)="presentPopoverDeletePizza($event, pizza)">
               <ion-icon name="trash"></ion-icon>
               <div>Supprimer</div>
             </button>
@@ -38,4 +56,7 @@
       </ion-card>
     </ion-col>
   </ion-row>
+  <ion-fab id="addBtnPizza">
+    <a ion-fab color="primary" style="font-size:30px" (click)="presentDialogAjouterPizza()">+🍕</a>
+  </ion-fab>
 </ion-content>

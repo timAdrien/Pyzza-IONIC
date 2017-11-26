@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {ModalController, NavController, PopoverController} from 'ionic-angular';
 import {Pizza} from "../../app/model/pizza";
 import {PizzaService} from "../../app/service/pizza.service";
 import {DetailPizzaPage} from "../detail-pizza/detail-pizza";
+import { Events } from 'ionic-angular';
+import {DeletePizzaPopOverPage} from "../delete-pizza-pop-over/delete-pizza-pop-over";
+import {AjouterPizzaModalPage} from "../ajouter-pizza-modal/ajouter-pizza-modal";
 
 @Component({
   selector: 'page-home',
@@ -12,7 +15,28 @@ export class HomePage {
 
   pizzas: Pizza[];
   errorMessage: any;
-  constructor(public navCtrl: NavController, private pizzaService: PizzaService) {
+
+  order = "nom";
+  ascending = false;
+  filterNom = "";
+
+  constructor(public navCtrl: NavController, private pizzaService: PizzaService, public events: Events,
+              public popoverCtrl: PopoverController,
+              public modalCtrl: ModalController) {
+    events.subscribe('pizza:updated', (pizza) => {
+      let indexPizza = this.pizzas.findIndex(pizzaListe => pizzaListe._id == pizza._id);
+      this.pizzas[indexPizza] = pizza;
+    });
+    events.subscribe('pizza:deleted', (pizza) => {
+      let indexPizza = this.pizzas.findIndex(pizzaListe => pizzaListe._id == pizza._id);
+      if (indexPizza !== -1) {
+        this.pizzas.splice(indexPizza, 1);
+      }
+      this.navCtrl.setRoot(this.navCtrl.getActive().component);
+    });
+    events.subscribe('pizza:created', (pizza) => {
+      this.pizzas.push(pizza);
+    });
 
     this.getPizzas();
   }
@@ -36,4 +60,15 @@ export class HomePage {
     });
   }
 
+  presentPopoverDeletePizza($event, pizza) {
+    let popover = this.popoverCtrl.create(DeletePizzaPopOverPage, {
+      pizza: pizza
+    });
+    popover.present();
+  }
+
+  presentDialogAjouterPizza(){
+    let ajouterPizzaModalPage = this.modalCtrl.create(AjouterPizzaModalPage);
+    ajouterPizzaModalPage.present();
+  }
 }

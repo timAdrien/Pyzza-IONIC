@@ -32,7 +32,6 @@ export class PizzaService {
   /* Début REST */
 
   getAll(): Observable<Pizza[]> {
-    console.log(this.appConfig.getHeaders())
     return this.http.get<Pizza[]>(`${this.appConfig.getUrl()}/pizza/voir`, { headers: this.appConfig.getHeaders() });
   }
 

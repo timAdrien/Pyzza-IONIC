@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import {Events, IonicPage, NavController, NavParams} from 'ionic-angular';
-import {Pizza} from "../../app/model/pizza";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {FunctionService} from "../../app/service/function.service";
 import {PizzaService} from "../../app/service/pizza.service";
-import * as _ from 'lodash';
 import {LocalNotifications} from "@ionic-native/local-notifications";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Pizza} from "../../app/model/pizza";
 import {HomePage} from "../home/home";
 
 /**
- * Generated class for the DetailPizzaPage page.
+ * Generated class for the AjouterPizzaModalPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -17,18 +15,17 @@ import {HomePage} from "../home/home";
 
 @IonicPage()
 @Component({
-  selector: 'page-detail-pizza',
-  templateUrl: 'detail-pizza.html',
+  selector: 'page-ajouter-pizza-modal',
+  templateUrl: 'ajouter-pizza-modal.html',
 })
-export class DetailPizzaPage {
+export class AjouterPizzaModalPage {
 
   pizzaForm : FormGroup;
   pizza: Pizza;
-  pizzaBefore: Pizza;
   edition: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,
-              private functionService: FunctionService,
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private formBuilder: FormBuilder,
               private pizzaService: PizzaService,
               private localNotifications: LocalNotifications,
               public events: Events) {
@@ -37,55 +34,39 @@ export class DetailPizzaPage {
       prix: [''],
       description: [''],
     });
-    this.pizza = navParams.get('pizza');
-    this.pizzaBefore = navParams.get('pizza');
-
-    if(this.pizza) {
-      this.pizzaForm.patchValue(this.pizza);
-    }
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad DetailPizzaPage');
+    console.log('ionViewDidLoad AjouterPizzaModalPage');
   }
+
 
   onSubmit(){
     let pizzaFromForm = this.prepareSavePizza();
-    if(!_.isEqual(pizzaFromForm, this.pizzaBefore)){
-      let PizzaGoingToBeUpdate = this.functionService.getDiff(this.pizzaBefore, pizzaFromForm);
       //this.spinnerService.show('loader');
-      this.pizzaService.update(PizzaGoingToBeUpdate).subscribe(pizzaUpdated => {
+      this.pizzaService.post(pizzaFromForm).subscribe(pizzaUpdated => {
         //this.spinnerService.hide('loader');
-
         this.localNotifications.schedule({
           id: 1,
-          text: 'Pizza mise à jour'
+          text: 'Pizza créée'
         });
 
-        this.events.publish('pizza:updated', pizzaUpdated);
+        this.events.publish('pizza:created', pizzaUpdated);
         this.navCtrl.push(HomePage);
       }, error => {
         console.log(error)
       });
-    } else {
-      console.log("La Ingredient n'a pas changée");
-    }
   }
-
 
   prepareSavePizza(): Pizza {
     const formModel = this.pizzaForm.value;
 
-    let id: string;
-
-    id = this.pizzaBefore._id ? this.pizzaBefore._id : null;
-
     const savePizza: Pizza = {
-      _id: id,
+      _id: null,
       nom: formModel.nom as string,
       prix: formModel.prix as number,
       ingredient_ids: null,
-      photo: null,
+      photo: {data: null, contentType: null},
       description: formModel.description as string,
     };
 
