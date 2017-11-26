@@ -15,6 +15,7 @@ export class Pizza {
     this._id = pId;
     this.nom = pNom;
     this.prix = pPrix;
+    this.ingredient_ids = [];
     this.description = pDescription;
     this.photo = pPhoto;
   }

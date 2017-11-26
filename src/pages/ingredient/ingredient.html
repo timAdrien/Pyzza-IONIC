@@ -11,10 +11,10 @@
   <ion-list>
     <ion-item *ngFor="let ingredient of ingredients">
       {{ ingredient.nom }}
-        <button ion-button color="light" item-end icon-only (click)="goToEditPage(ingredient)">
+        <button ion-button color="light" item-end icon-only (click)="goToEditPage($event, ingredient)">
           <ion-icon name="create"></ion-icon>
         </button>
-        <button ion-button color="danger" item-end icon-only (click)="presentPopoverDeletePizza(ingredient)">
+        <button ion-button color="danger" item-end icon-only (click)="presentPopoverDeletePizza($event, ingredient)">
           <ion-icon name="trash"></ion-icon>
         </button>
     </ion-item>

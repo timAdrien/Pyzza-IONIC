@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
+import {Events, IonicPage, NavController, PopoverController} from 'ionic-angular';
 import {IngredientService} from "../../app/service/ingredient.service";
 import {Ingredient} from "../../app/model/ingredient";
 import {DetailIngredientPage} from "../detail-ingredient/detail-ingredient";
 import {DeleteIngredientPopOverPage} from "../delete-ingredient-pop-over/delete-ingredient-pop-over";
-import {FunctionService} from "../../app/service/function.service";
+import {LocalNotifications} from "@ionic-native/local-notifications";
 
 /**
  * Generated class for the IngredientPage page.
@@ -21,11 +21,35 @@ import {FunctionService} from "../../app/service/function.service";
 export class IngredientPage {
 
   ingredients: Ingredient[];
+  onRefresh: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  constructor(public navCtrl: NavController,
               private ingredientService: IngredientService,
-              private functionService: FunctionService,
-              public popoverCtrl: PopoverController) {
+              public popoverCtrl: PopoverController,
+              public events: Events,
+              private localNotifications: LocalNotifications) {
+
+    events.subscribe('ingredient:updated', (pizza) => {
+      let indexPizza = this.ingredients.findIndex(pizzaListe => pizzaListe._id == pizza._id);
+      this.ingredients[indexPizza] = pizza;
+    });
+    events.subscribe('ingredient:deleted', (pizza) => {
+      let indexPizza = this.ingredients.findIndex(pizzaListe => pizzaListe._id == pizza._id);
+      if (indexPizza !== -1) {
+        this.ingredients.splice(indexPizza, 1);
+      }
+      this.navCtrl.setRoot(this.navCtrl.getActive().component);
+    });
+    events.subscribe('ingredient:created', (pizza) => {
+      this.ingredients.push(pizza);
+    });
+
+    this.ingredientService.onRefresh().subscribe(() => {
+      this.onRefresh = true;
+      this.getIngredients();
+    }, error => {
+      console.log(error);
+    });
 
     this.getIngredients();
   }
@@ -36,6 +60,14 @@ export class IngredientPage {
     this.ingredientService.getAll().subscribe(ingredients => {
       //this.spinnerService.hide('loader');
       this.ingredients = ingredients;
+
+      if (this.onRefresh) {
+        this.localNotifications.schedule({
+          id: 1,
+          text: 'Mise à jour de vos pizzas'
+        });
+        this.onRefresh = false;
+      }
     }, error => {
       console.log(error)
     });
@@ -46,9 +78,9 @@ export class IngredientPage {
     console.log('ionViewDidLoad IngredientPage');
   }
 
-  goToEditPage(event, pizza){
+  goToEditPage(event, ingredient){
     this.navCtrl.push(DetailIngredientPage, {
-      pizza: pizza
+      ingredient: ingredient
     });
   }
 
@@ -56,9 +88,9 @@ export class IngredientPage {
     this.navCtrl.push(DetailIngredientPage);
   }
 
-  presentPopoverDeletePizza($event, pizza) {
+  presentPopoverDeletePizza($event, ingredient) {
     let popover = this.popoverCtrl.create(DeleteIngredientPopOverPage, {
-      pizza: pizza
+      ingredient: ingredient
     });
     popover.present();
   }

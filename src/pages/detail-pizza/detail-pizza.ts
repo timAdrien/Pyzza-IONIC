@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {Events, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {Pizza} from "../../app/model/pizza";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {FunctionService} from "../../app/service/function.service";
 import {PizzaService} from "../../app/service/pizza.service";
 import * as _ from 'lodash';
@@ -23,30 +22,23 @@ import {IngredientService} from "../../app/service/ingredient.service";
 })
 export class DetailPizzaPage {
 
-  pizzaForm : FormGroup;
   pizza: Pizza;
   pizzaBefore: Pizza;
   selectedIngredients: string[];
   ingredients: Ingredient[];
   edition: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,
+  constructor(public navCtrl: NavController, public navParams: NavParams,
               private functionService: FunctionService,
               private pizzaService: PizzaService,
               private ingredientService: IngredientService,
               public events: Events,
               private camera: Camera) {
-    this.pizzaForm = this.formBuilder.group({
-      nom: ['', Validators.required],
-      prix: [''],
-      description: [''],
-    });
-    this.pizza = navParams.get('pizza');
+    this.pizza = this.navParams.get('pizza');
     if(this.pizza) {
       this.edition = true;
-      let pizzaB = JSON.stringify(navParams.get('pizza'));
+      let pizzaB = JSON.stringify(this.navParams.get('pizza'));
       this.pizzaBefore = JSON.parse(pizzaB);
-      this.pizzaForm.patchValue(this.pizza);
     } else {
       this.pizza = new Pizza('','','', '', {data: '', contentType: ''});
     }
@@ -75,11 +67,7 @@ export class DetailPizzaPage {
   }
 
   onSubmit(){
-    //let pizzaFromForm = this.prepareSavePizza();
-
-    console.log(this.selectedIngredients);
     this.pizza = this.prepareSavePizza(this.pizza);
-    console.log(this.pizza);
     if(!this.edition){
       this.pizzaService.post(this.pizza).subscribe(pizzaUpdated => {
         //this.spinnerService.hide('loader');

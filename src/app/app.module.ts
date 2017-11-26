@@ -19,6 +19,8 @@ import {PipeFilterNomPizza} from "./pipe/pipe-filter-nom-pizza";
 import {DeletePizzaPopOverPage} from "../pages/delete-pizza-pop-over/delete-pizza-pop-over";
 import {IngredientService} from "./service/ingredient.service";
 import {IngredientPage} from "../pages/ingredient/ingredient";
+import {DetailIngredientPage} from "../pages/detail-ingredient/detail-ingredient";
+import {DeleteIngredientPopOverPage} from "../pages/delete-ingredient-pop-over/delete-ingredient-pop-over";
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import {IngredientPage} from "../pages/ingredient/ingredient";
     HomePage,
     IngredientPage,
     DetailPizzaPage,
+    DetailIngredientPage,
     DeletePizzaPopOverPage,
+    DeleteIngredientPopOverPage,
     PipeOrderPizza,
     PipeFilterNomPizza
   ],
@@ -40,7 +44,9 @@ import {IngredientPage} from "../pages/ingredient/ingredient";
     MyApp,
     HomePage,
     IngredientPage,
+    DetailIngredientPage,
     DeletePizzaPopOverPage,
+    DeleteIngredientPopOverPage,
     DetailPizzaPage
   ],
   providers: [

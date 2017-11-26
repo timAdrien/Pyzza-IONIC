@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Events, IonicPage, NavParams, ViewController} from 'ionic-angular';
+import {IngredientService} from "../../app/service/ingredient.service";
+import {FunctionService} from "../../app/service/function.service";
+import {Ingredient} from "../../app/model/ingredient";
 
 /**
  * Generated class for the DeleteIngredientPopOverPage page.
@@ -15,11 +18,27 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class DeleteIngredientPopOverPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  ingredient: Ingredient;
+  constructor(public navParams: NavParams,
+              private ingredientService: IngredientService,
+              private functionService: FunctionService,
+              public events: Events,
+              public viewCtrl: ViewController) {
+    this.ingredient = navParams.get('ingredient');
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad DeleteIngredientPopOverPage');
+    console.log('ionViewDidLoad DeletePizzaPopOverPage');
   }
 
+  supprimerIngredient(){
+    this.ingredientService.delete(this.ingredient._id).subscribe(() => {
+      this.events.publish('ingredient:deleted', this.ingredient);
+      this.ingredientService.refresh();
+      this.functionService.presentToast("Ingredient supprimée");
+      this.viewCtrl.dismiss();
+    }, error => {
+      console.log(error)
+    });
+  }
 }

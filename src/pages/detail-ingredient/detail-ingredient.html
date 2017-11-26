@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>detailIngredient</ion-title>
+    <ion-title>Ingrédient {{ ingredient.nom }}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,4 +15,20 @@
 
 <ion-content padding>
 
+  <form [formGroup]="ingredientForm" (submit)="onSubmit()">
+    <ion-item>
+      <ion-label>Nom</ion-label>
+      <ion-input type="text" formControlName="nom"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Prix</ion-label>
+      <ion-input type="number" formControlName="prix"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Poids</ion-label>
+      <ion-input type="number" formControlName="poids"></ion-input>
+    </ion-item>
+    <button ion-button type="submit" [disabled]="ingredientForm.pristine || !ingredientForm.valid">Sauvergarder</button>
+    <button ion-button type="reset" [disabled]="ingredientForm.pristine">Reset</button>
+  </form>
 </ion-content>

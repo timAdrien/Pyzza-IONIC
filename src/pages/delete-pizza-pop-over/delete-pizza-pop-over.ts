@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Events, IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {Events, IonicPage, NavParams, ViewController} from 'ionic-angular';
 import {Pizza} from "../../app/model/pizza";
 import {PizzaService} from "../../app/service/pizza.service";
 import {FunctionService} from "../../app/service/function.service";
@@ -19,11 +19,11 @@ import {FunctionService} from "../../app/service/function.service";
 export class DeletePizzaPopOverPage {
 
   pizza: Pizza;
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  constructor(public navParams: NavParams,
               private pizzaService: PizzaService,
               private functionService: FunctionService,
-                public events: Events,
-                public viewCtrl: ViewController) {
+              public events: Events,
+              public viewCtrl: ViewController) {
     this.pizza = navParams.get('pizza');
   }
 

@@ -6,7 +6,6 @@ import {DetailPizzaPage} from "../detail-pizza/detail-pizza";
 import { Events } from 'ionic-angular';
 import {DeletePizzaPopOverPage} from "../delete-pizza-pop-over/delete-pizza-pop-over";
 import {LocalNotifications} from "@ionic-native/local-notifications";
-import {FunctionService} from "../../app/service/function.service";
 
 @Component({
   selector: 'page-home',
@@ -24,8 +23,7 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, private pizzaService: PizzaService, public events: Events,
               public popoverCtrl: PopoverController,
-              private localNotifications: LocalNotifications,
-              private functionService: FunctionService) {
+              private localNotifications: LocalNotifications) {
     events.subscribe('pizza:updated', (pizza) => {
       let indexPizza = this.pizzas.findIndex(pizzaListe => pizzaListe._id == pizza._id);
       this.pizzas[indexPizza] = pizza;
