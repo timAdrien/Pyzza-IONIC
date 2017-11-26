@@ -1,12 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import {IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import {IonicApp, IonicErrorHandler, IonicModule, ToastController} from 'ionic-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { Camera } from '@ionic-native/camera';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -19,12 +18,13 @@ import {PipeOrderPizza} from "./pipe/pipe-order-pizza";
 import {PipeFilterNomPizza} from "./pipe/pipe-filter-nom-pizza";
 import {DeletePizzaPopOverPage} from "../pages/delete-pizza-pop-over/delete-pizza-pop-over";
 import {IngredientService} from "./service/ingredient.service";
+import {IngredientPage} from "../pages/ingredient/ingredient";
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
+    IngredientPage,
     DetailPizzaPage,
     DeletePizzaPopOverPage,
     PipeOrderPizza,
@@ -39,7 +39,7 @@ import {IngredientService} from "./service/ingredient.service";
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
+    IngredientPage,
     DeletePizzaPopOverPage,
     DetailPizzaPage
   ],
@@ -52,6 +52,7 @@ import {IngredientService} from "./service/ingredient.service";
     AppConfig,
     FunctionService,
     LocalNotifications,
+    ToastController,
     Camera
   ]
 })

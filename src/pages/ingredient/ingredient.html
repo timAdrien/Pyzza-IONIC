@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Ingrédients</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let ingredient of ingredients">
+      {{ ingredient.nom }}
+        <button ion-button color="light" item-end icon-only (click)="goToEditPage(ingredient)">
+          <ion-icon name="create"></ion-icon>
+        </button>
+        <button ion-button color="danger" item-end icon-only (click)="presentPopoverDeletePizza(ingredient)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+    </ion-item>
+  </ion-list>
+  <ion-fab id="addBtnPizza">
+    <a ion-fab color="primary" style="font-size:30px" (click)="goToAjouterPage($event)">+🍕</a>
+  </ion-fab>
+</ion-content>

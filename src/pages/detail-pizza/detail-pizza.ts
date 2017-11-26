@@ -85,10 +85,14 @@ export class DetailPizzaPage {
     if(!this.edition){
       this.pizzaService.post(this.pizza).subscribe(pizzaUpdated => {
         //this.spinnerService.hide('loader');
+
         this.localNotifications.schedule({
           id: 1,
           text: 'Pizza créée'
         });
+
+        this.functionService.presentToast("Pizza créée and persisted");
+        this.pizzaService.refresh();
 
         this.events.publish('pizza:created', pizzaUpdated);
 
@@ -102,7 +106,7 @@ export class DetailPizzaPage {
         //this.spinnerService.show('loader');
         this.pizzaService.update(PizzaGoingToBeUpdate).subscribe(pizzaUpdated => {
           //this.spinnerService.hide('loader');
-
+          this.pizzaService.getAll()
           this.localNotifications.schedule({
             id: 1,
             text: 'Pizza mise à jour'

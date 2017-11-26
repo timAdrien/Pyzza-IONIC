@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import {ToastController} from "ionic-angular";
 
 @Injectable()
 export class FunctionService {
 
-  constructor() { }
+  constructor(
+    private toastCtrl: ToastController) { }
 
   getDiff(obj1, obj2){
     let newJson = { _id: obj2["_id"]};
@@ -14,6 +16,17 @@ export class FunctionService {
       }
     }
     return newJson;
+  }
+
+
+  presentToast(mess) {
+    let toast = this.toastCtrl.create({
+      message: mess,
+      duration: 3000,
+      position: 'top'
+    });
+
+    toast.present();
   }
 
 }
