@@ -46,6 +46,7 @@ export class HomePage {
     this.pizzaService.getAll().subscribe(pizzas => {
       //this.spinnerService.hide('loader');
       this.pizzas = pizzas;
+      console.log("pizza home", pizzas);
     }, error => {
       //this.toastr.error("Erreur de chargement des pizzas...", "Erreur", {dismiss: 'controlled'});
       this.errorMessage = <any>error;
