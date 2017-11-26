@@ -60,7 +60,7 @@ export class DetailPizzaPage {
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      this.pizza.photo.data = imageData.split("base64,")[1];
+      this.pizza.photo.data = imageData;
       this.pizza.photo.contentType = "image/JPEG";
     }, (err) => {
     });
