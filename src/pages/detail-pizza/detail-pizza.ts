@@ -7,6 +7,7 @@ import {PizzaService} from "../../app/service/pizza.service";
 import * as _ from 'lodash';
 import {LocalNotifications} from "@ionic-native/local-notifications";
 import {HomePage} from "../home/home";
+import {Camera, CameraOptions} from "@ionic-native/camera";
 
 /**
  * Generated class for the DetailPizzaPage page.
@@ -26,12 +27,14 @@ export class DetailPizzaPage {
   pizza: Pizza;
   pizzaBefore: Pizza;
   edition: boolean;
+  public base64Image: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,
               private functionService: FunctionService,
               private pizzaService: PizzaService,
               private localNotifications: LocalNotifications,
-              public events: Events) {
+              public events: Events,
+              private camera: Camera) {
     this.pizzaForm = this.formBuilder.group({
       nom: ['', Validators.required],
       prix: [''],
@@ -47,6 +50,21 @@ export class DetailPizzaPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPizzaPage');
+  }
+
+  onGetPhoto(imgBase64) {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.base64Image = 'data:image/jpeg;base64,' + imageData;
+      console.log(base64Image)
+    }, (err) => {
+    });
   }
 
   onSubmit(){

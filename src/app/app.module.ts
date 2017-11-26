@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import {IonicApp, IonicErrorHandler, IonicModule, ModalController} from 'ionic-angular';
+import {IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpClientModule } from '@angular/common/http';
+import { Camera } from '@ionic-native/camera';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -51,7 +52,8 @@ import {AjouterPizzaModalPage} from "../pages/ajouter-pizza-modal/ajouter-pizza-
     PizzaService,
     AppConfig,
     FunctionService,
-    LocalNotifications
+    LocalNotifications,
+    Camera
   ]
 })
 export class AppModule {}
