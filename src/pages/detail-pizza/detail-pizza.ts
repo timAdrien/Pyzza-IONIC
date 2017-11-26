@@ -87,7 +87,6 @@ export class DetailPizzaPage {
         let PizzaGoingToBeUpdate = this.functionService.getDiff(this.pizzaBefore, this.pizza);
         this.functionService.presentLoadingDefault();
         this.pizzaService.update(PizzaGoingToBeUpdate).subscribe(pizzaUpdated => {
-          console.log(pizzaUpdated)
           this.functionService.dissmissLoadingDefault();
           this.pizzaService.getAll();
           this.pizzaService.refresh();
