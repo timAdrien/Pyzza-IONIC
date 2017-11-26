@@ -60,15 +60,14 @@ export class HomePage {
     });
   }
 
+  goToAjouterPage(event, pizza){
+    this.navCtrl.push(DetailPizzaPage);
+  }
+
   presentPopoverDeletePizza($event, pizza) {
     let popover = this.popoverCtrl.create(DeletePizzaPopOverPage, {
       pizza: pizza
     });
     popover.present();
-  }
-
-  presentDialogAjouterPizza(){
-    let ajouterPizzaModalPage = this.modalCtrl.create(AjouterPizzaModalPage);
-    ajouterPizzaModalPage.present();
   }
 }

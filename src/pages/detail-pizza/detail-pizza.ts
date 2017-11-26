@@ -27,6 +27,7 @@ export class DetailPizzaPage {
   pizza: Pizza;
   pizzaBefore: Pizza;
   edition: boolean;
+
   public base64Image: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,
@@ -62,7 +63,7 @@ export class DetailPizzaPage {
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      this.base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.pizza.photo.data = imageData;
       console.log(this.base64Image)
     }, (err) => {
     });
@@ -70,25 +71,41 @@ export class DetailPizzaPage {
 
   onSubmit(){
     let pizzaFromForm = this.prepareSavePizza();
-    if(!_.isEqual(pizzaFromForm, this.pizzaBefore)){
-      let PizzaGoingToBeUpdate = this.functionService.getDiff(this.pizzaBefore, pizzaFromForm);
-      //this.spinnerService.show('loader');
-      this.pizzaService.update(PizzaGoingToBeUpdate).subscribe(pizzaUpdated => {
+    if(!this.edition){
+      this.pizzaService.post(pizzaFromForm).subscribe(pizzaUpdated => {
         //this.spinnerService.hide('loader');
-
         this.localNotifications.schedule({
           id: 1,
-          text: 'Pizza mise à jour'
+          text: 'Pizza créée'
         });
 
-        this.events.publish('pizza:updated', pizzaUpdated);
+        this.events.publish('pizza:created', pizzaUpdated);
 
         this.navCtrl.setRoot(this.navCtrl.getActive().component);
       }, error => {
         console.log(error)
       });
     } else {
-      console.log("La Ingredient n'a pas changée");
+      if (!_.isEqual(pizzaFromForm, this.pizzaBefore)) {
+        let PizzaGoingToBeUpdate = this.functionService.getDiff(this.pizzaBefore, pizzaFromForm);
+        //this.spinnerService.show('loader');
+        this.pizzaService.update(PizzaGoingToBeUpdate).subscribe(pizzaUpdated => {
+          //this.spinnerService.hide('loader');
+
+          this.localNotifications.schedule({
+            id: 1,
+            text: 'Pizza mise à jour'
+          });
+
+          this.events.publish('pizza:updated', pizzaUpdated);
+
+          this.navCtrl.setRoot(this.navCtrl.getActive().component);
+        }, error => {
+          console.log(error)
+        });
+      } else {
+        console.log("La Ingredient n'a pas changée");
+      }
     }
   }
 
