@@ -59,7 +59,7 @@ export class HomePage {
     });
   }
 
-  goToAjouterPage(event, pizza){
+  goToAjouterPage(event){
     this.navCtrl.push(DetailPizzaPage);
   }
 

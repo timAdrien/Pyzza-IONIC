@@ -49,6 +49,8 @@ export class DetailPizzaPage {
       let pizzaB = JSON.stringify(navParams.get('pizza'));
       this.pizzaBefore = JSON.parse(pizzaB);
       this.pizzaForm.patchValue(this.pizza);
+    } else {
+      this.pizza = new Pizza('','','', '', {data: '', contentType: ''});
     }
     this.selectedIngredients = [];
     this.getIngredients();
@@ -124,6 +126,9 @@ export class DetailPizzaPage {
     let ingredients = this.ingredients;
     pizza.ingredient_ids = [];
     this.selectedIngredients.forEach(function (ingredientId) {
+      if(pizza.ingredient_ids == undefined){
+        pizza.ingredient_ids = [];
+      }
         pizza.ingredient_ids.push(ingredients.find(ing => ing._id == ingredientId));
     });
 
@@ -144,9 +149,12 @@ export class DetailPizzaPage {
     let pizza = this.pizza;
     let selectedIngredients = this.selectedIngredients;
     this.ingredients.forEach(function (ingredient) {
-      if (pizza.ingredient_ids.find(ing => ing._id == ingredient._id)) {
-        selectedIngredients.push(ingredient._id);
+      if(pizza.ingredient_ids == undefined){
+        pizza.ingredient_ids = [];
       }
+        if (pizza.ingredient_ids.find(ing => ing._id == ingredient._id)) {
+          selectedIngredients.push(ingredient._id);
+        }
     });
 
   }
