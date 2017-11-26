@@ -9,14 +9,13 @@
 
 <ion-content padding>
   <ion-card  ion-item *ngFor="let pizza of pizzas">
-    <img src="{{ pizza.photo.data ? 'data:'+pizza.photo.contentType+';base64,'+pizza.photo.data : ''}}"/>
+    <img [src]="pizza.photo.data ? 'data:'+pizza.photo.contentType+';base64,'+pizza.photo.data : ''"/>
     <ion-card-content>
       <ion-card-title>
-        Nine Inch Nails Live
+        {{ pizza.nom }}
       </ion-card-title>
       <p>
-        The most popular industrial group ever, and largely
-        responsible for bringing the music to a mass audience.
+        {{ pizza.description }}
       </p>
     </ion-card-content>
   </ion-card>
