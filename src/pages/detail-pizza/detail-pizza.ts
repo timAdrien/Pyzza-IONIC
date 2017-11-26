@@ -6,7 +6,6 @@ import {FunctionService} from "../../app/service/function.service";
 import {PizzaService} from "../../app/service/pizza.service";
 import * as _ from 'lodash';
 import {LocalNotifications} from "@ionic-native/local-notifications";
-import {HomePage} from "../home/home";
 import {Camera, CameraOptions} from "@ionic-native/camera";
 
 /**
@@ -27,8 +26,6 @@ export class DetailPizzaPage {
   pizza: Pizza;
   pizzaBefore: Pizza;
   edition: boolean;
-
-  public base64Image: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,
               private functionService: FunctionService,
@@ -53,7 +50,7 @@ export class DetailPizzaPage {
     console.log('ionViewDidLoad DetailPizzaPage');
   }
 
-  onGetPhoto(imgBase64) {
+  onGetPhoto() {
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -63,8 +60,8 @@ export class DetailPizzaPage {
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      this.pizza.photo.data = imageData;
-      console.log(this.base64Image)
+      this.pizza.photo.data = imageData.split("base64,")[1];
+      this.pizza.photo.contentType = imageData.split(";")[0].split(":")[1];
     }, (err) => {
     });
   }
@@ -81,7 +78,7 @@ export class DetailPizzaPage {
 
         this.events.publish('pizza:created', pizzaUpdated);
 
-        this.navCtrl.setRoot(this.navCtrl.getActive().component);
+        this.navCtrl.pop();
       }, error => {
         console.log(error)
       });
@@ -99,7 +96,7 @@ export class DetailPizzaPage {
 
           this.events.publish('pizza:updated', pizzaUpdated);
 
-          this.navCtrl.setRoot(this.navCtrl.getActive().component);
+          this.navCtrl.pop();
         }, error => {
           console.log(error)
         });
