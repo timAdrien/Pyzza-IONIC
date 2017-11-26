@@ -16,7 +16,7 @@
 <ion-content padding>
 
   <form [formGroup]="pizzaForm" (ngSubmit)="onSubmit()">
-    <button ion-button>Photo</button>
+    <button ion-button (click)="onGetPhoto()">Photo</button>
     <img [src]="base64Image" *ngIf="base64Image" />
     <ion-item>
       <ion-label>Nom</ion-label>
