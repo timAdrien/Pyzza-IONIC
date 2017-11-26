@@ -17,7 +17,7 @@
 
   <form [formGroup]="pizzaForm" (ngSubmit)="onSubmit()">
     <button ion-button (click)="onGetPhoto()">Photo</button>
-    <img [src]="pizza.photo.data ? pizza.photo.data : ''" *ngIf="pizza.photo.data" />
+    <img [src]="pizza.photo.contentType ? 'data:'+pizza.photo.contentType+';base64,'+pizza.photo.data : ''" *ngIf="pizza.photo.contentType" />
     {{ pizza.photo.data }} / {{ pizza.photo.contentType }}
     <ion-item>
       <ion-label>Nom</ion-label>
