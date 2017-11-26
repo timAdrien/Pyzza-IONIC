@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -9,6 +10,7 @@ import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {PizzaService} from "./service/pizza.service";
+import {AppConfig} from "./app-config";
 
 @NgModule({
   declarations: [
@@ -18,6 +20,7 @@ import {PizzaService} from "./service/pizza.service";
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -31,6 +34,7 @@ import {PizzaService} from "./service/pizza.service";
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     PizzaService,
+    AppConfig
   ]
 })
 export class AppModule {}

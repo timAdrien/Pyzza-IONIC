@@ -17,7 +17,7 @@ export class AppConfig {
   setHeadersToken(token){
     this.headers = new HttpHeaders({
       //'Authorization': `Bearer ${<string>token}`,
-      'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRpdGkiLCJpYXQiOjE1MTE2Mjk5OTh9.6dN6SBYEmzjziZ5af8lR_6vAKB4W2QeqDFHyqv1RfVI`,
+      'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRpdGkiLCJpYXQiOjE1MTEwOTgzMTZ9.Ch9t8cumg2KlFcbRtQ6jnBB-abE_OM1fjik5D197CkE`,
       'Content-Type': 'application/json'
     });
   }
@@ -31,6 +31,9 @@ export class AppConfig {
   }
 
   getHeaders() {
-    return this.headers;
+    return new HttpHeaders({
+      'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRpdGkiLCJpYXQiOjE1MTEwOTgzMTZ9.Ch9t8cumg2KlFcbRtQ6jnBB-abE_OM1fjik5D197CkE`,
+      'Content-Type': 'application/json'
+    });
   }
 }
